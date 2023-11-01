@@ -1,0 +1,33 @@
+# Change Log
+- All notable changes to this project will be documented in this file.
+-
+## Goals:
+- Create our schedule using a Kanban board.
+- - Review:
+-   - Robust Architecture
+-   - Connecting Postgres
+-   - Knex
+-   - Deploying an application: Render vs Vercel:
+-     are they used together?
+-
+- - Create our DB's and get the app running
+- - We want to be able to visit localhost:3000 to see
+-  what the front end looks like
+- Deploy our app . . .
+
+# Branches
+- Main
+- db-connection:
+-       created db's for dev, test, preview & prod & connected them
+-       defined rows in "reservations" table
+-       created "tables" table via Knex migrate
+-       created seeds file for "tables"
+-       seeded "reservations" table
+-       confirmed that server runs and DBeaver is connected to db
+- US-01: (for User Story #1)
+-       created routes for /reservations/new and /reservations pages
+-       confirmed that app.js file includes the reservations router
+-       added "methodNotAllowed" to errors folder
+-       added "asyncErrorBoundary" to errors folder
+-       added "hasProperties" to errors folder
+-       updated reservations.controller.js and created reservations.service.js
