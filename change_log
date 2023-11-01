@@ -31,3 +31,4 @@
 -       added "asyncErrorBoundary" to errors folder
 -       added "hasProperties" to errors folder
 -       updated reservations.controller.js and created reservations.service.js
+-       seeded "tables" table
