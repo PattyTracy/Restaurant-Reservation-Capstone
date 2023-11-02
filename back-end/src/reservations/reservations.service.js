@@ -5,7 +5,7 @@ function create(reservation) {
     return knex("reservations")
     .insert(reservation)
     .returning("*")
-    .where({ date: reservation.date })
+    .where({ date: reservation_date })
     .then((createdRecords) => createdRecords[0]);
 }
 
@@ -17,7 +17,7 @@ return knex("reservations").select("*")
 function list() {
     return knex("reservations").select("*")
     .where("reservation_date", today)
-    .orderBy(date, time)
+    .orderBy("reservation_date", "reservation_time")
 }
 
 module.exports = {

@@ -10,6 +10,7 @@ const VALID_PROPERTIES = [
   "mobile_number",
   "reservation_date",
   "reservation_time",
+  "people"
 ];
 
 function hasOnlyValidProperties(req, res, next) {
@@ -57,7 +58,7 @@ async function list(req, res) {
   if (hasDate) {
     data = await reservationsService.hasDate();
   } else {
-    data = await moviesService.list();
+    data = await reservationsService.list();
   }
   res.json({
     data: [],
