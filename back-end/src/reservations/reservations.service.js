@@ -11,17 +11,23 @@ function create(reservation) {
 
 function hasDate() {
 return knex("reservations").select("*")
-.where("reservation_date", date);
+.where({ reservation_date: reservationDate });
 }
 
 function list() {
     return knex("reservations").select("*")
-    .where("reservation_date", today)
-    .orderBy("reservation_date", "reservation_time")
+    .where({ reservation_date: today })
+    .orderBy("reservation_time")
+}
+
+function read(reservation_id) {
+    return knex("reservations").select("*")
+    .where({ reservation_id }).first;
 }
 
 module.exports = {
     create,
     hasDate,
     list,
+    read
 };
