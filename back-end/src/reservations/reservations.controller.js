@@ -90,14 +90,14 @@ async function list(req, res) {
 }
 
 async function reservationExists(req, res, next) {
-  const reservation = await reservationsService.read(req.params);
+  const reservation = await reservationsService.read(req.params.reservation_id);
   if (reservation) {
     res.locals.reservation = reservation;
     return next();
   }
   next({
     status: 404,
-    message: `Reservation ${reservation.reservation_id} cannot be found.`,
+    message: `Reservation ${res.locals.reservation.reservation_id} cannot be found.`,
   });
 }
 
