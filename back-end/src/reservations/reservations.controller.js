@@ -4,6 +4,9 @@ const hasProperties = require("../errors/hasProperties");
 /**
  * List handler for reservation resources
  */
+
+// middleware for create, update
+
 const VALID_PROPERTIES = [
   "first_name",
   "last_name",
@@ -34,9 +37,10 @@ const hasRequiredProperties = hasProperties(
   "mobile_number",
   "reservation_date",
   "reservation_time",
-  "people"
+  "people",
 );
 
+// number of people in reservation is a number >1
 function hasPeople(req, res, next) {
   const { data: {people} = {} } = req.body;
   if (people < 1 || isNaN(people))
@@ -47,29 +51,38 @@ function hasPeople(req, res, next) {
   next();
 }
 
+// date is in the correct format, in the future, and not a Tuesday
 async function isDate(req, res, next) {
   const { data: { reservation_date } = {} } = req.body;
   const datePattern = /^\d{4}-\d{2}-\d{2}/;
   if (!datePattern.test(reservation_date)) {
     return next({
       status: 400,
-      message: `Reservation date ${reservation_date} must be in YYYY-MM-DD format.`,
+      message: "Field reservation_date must be in YYYY-MM-DD format.",
     });
+  }
+  const date = new Date(req.body.date); 
+
+  if (!date || date < new Date() || date.getDay() === 2) {
+    return res.status(400).json({ error: 'Invalid date' });
   }
   return next();
 }
 
+// time is in the correct format
 async function isTime(req, res, next) {
   const { data: { reservation_time } = {} } = req.body;
   const timePattern = /[0-9]{2}:[0-9]{2}/;
   if (!timePattern.test(reservation_time)) {
     return next({
       status: 400,
-      message: "Reservation time must be in HH:MM format.",
+      message: "Field reservation_time must be in HH:MM format.",
     })
   }
   return next();
 }
+
+
 
 async function create(req, res) {
   const data = await reservationsService.create(req.body.data);
@@ -77,10 +90,13 @@ async function create(req, res) {
 }
 
 async function list(req, res) {
-  const reservationDate = req.query.reservation_date;
+  // check to see whether date = yyyy-mm-dd
+  const reservationDate = req.query.date;
   let data = [];
+  // if so return only the reservations for that day
   if (reservationDate) {
     data = await reservationsService.hasDate(reservationDate);
+  // otherwise return the reservations for today
   } else {
     data = await reservationsService.list();
   }
@@ -97,7 +113,7 @@ async function reservationExists(req, res, next) {
   }
   next({
     status: 404,
-    message: `Reservation ${res.locals.reservation.reservation_id} cannot be found.`,
+    message: `reservation_id ${res.locals.reservation.reservation_id} cannot be found.`,
   });
 }
 
@@ -110,11 +126,11 @@ module.exports = {
   create: [
     hasOnlyValidProperties,
     hasRequiredProperties,
-    hasPeople,
     isDate,
     isTime,
+    hasPeople,
     asyncErrorBoundary(create),
   ],
-  list: [asyncErrorBoundary(list)],
+  list: asyncErrorBoundary(list),
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
 };

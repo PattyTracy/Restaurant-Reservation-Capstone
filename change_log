@@ -32,3 +32,6 @@
 -       added "hasProperties" to errors folder
 -       updated reservations.controller.js and created reservations.service.js
 -       seeded "tables" table
+- US-#2: (for User Story #2)
+-       wrote middleware for validating date
+-       continued testing User Story #1; 6 tests still not passing

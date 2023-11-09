@@ -1,11 +1,20 @@
 const knex = require("../db/connection");
-const today = new Date();
+const dateToday = new Date();
+const year = dateToday.getFullYear();
+const month = String(dateToday.getMonth() + 1).padStart(2, "0");
+const day = String(dateToday.getDate()).padStart(2, "0");
+const today = `${year}-${month}-${day}`;
+const hours = dateToday.getHours().toString().padStart(2, "0");
+const minutes = dateToday.getMinutes().toString().padStart(2, "0");
+const seconds = dateToday.getSeconds().toString().padStart(2, "0");
+const time = `${hours}:${minutes}:${seconds}`;
+
 
 function create(reservation) {
     return knex("reservations")
     .insert(reservation)
     .returning("*")
-    .where({ date: reservation_date })
+    .where({ reservation_date: reservation_date })
     .then((createdRecords) => createdRecords[0]);
 }
 
@@ -22,7 +31,7 @@ function list() {
 
 function read(reservation_id) {
     return knex("reservations").select("*")
-    .where({ reservation_id }).first;
+    .where({ reservation_id });
 }
 
 module.exports = {
