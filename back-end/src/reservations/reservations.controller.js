@@ -43,10 +43,10 @@ const hasRequiredProperties = hasProperties(
 // number of people in reservation is a number >1
 function hasPeople(req, res, next) {
   const { data: {people} = {} } = req.body;
-  if (people < 1 || isNaN(people))
+  if (typeof(people) !== "number" || people < 1)
     return next({
       status: 400,
-      message: "People must be a number greater than zero.",
+      message: "Input field people must be a number greater than zero.",
     });
   next();
 }
@@ -100,9 +100,7 @@ async function list(req, res) {
   } else {
     data = await reservationsService.list();
   }
-  res.json({
-    data: [],
-  });
+  res.json({ data });
 }
 
 async function reservationExists(req, res, next) {
@@ -113,7 +111,7 @@ async function reservationExists(req, res, next) {
   }
   next({
     status: 404,
-    message: `reservation_id ${res.locals.reservation.reservation_id} cannot be found.`,
+    message: `Reservation with id ${req.params.reservation_id} cannot be found.`,
   });
 }
 

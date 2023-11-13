@@ -20,7 +20,7 @@ function create(reservation) {
 
 function hasDate() {
 return knex("reservations").select("*")
-.where({ reservation_date: reservationDate });
+.where({ reservation_date: reservationDate }).first;
 }
 
 function list() {
@@ -31,7 +31,7 @@ function list() {
 
 function read(reservation_id) {
     return knex("reservations").select("*")
-    .where({ reservation_id });
+    .where({ reservation_id }).first();
 }
 
 module.exports = {
