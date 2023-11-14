@@ -92,6 +92,7 @@ async function create(req, res) {
 async function list(req, res) {
   // check to see whether date = yyyy-mm-dd
   const reservationDate = req.query.date;
+  console.log("***********", reservationDate);
   let data = [];
   // if so return only the reservations for that day
   if (reservationDate) {

@@ -18,14 +18,15 @@ function create(reservation) {
     .then((createdRecords) => createdRecords[0]);
 }
 
-function hasDate() {
+function hasDate(reservationDate) {
 return knex("reservations").select("*")
-.where({ reservation_date: reservationDate }).first;
+.where("reservation_date", "like", reservationDate).first;
 }
 
 function list() {
+ 
     return knex("reservations").select("*")
-    .where({ reservation_date: today })
+    // .where({ reservation_date: today })
     .orderBy("reservation_time")
 }
 
