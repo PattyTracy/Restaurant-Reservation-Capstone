@@ -1,6 +1,15 @@
 const reservationsService = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
+const hasRequiredProperties = hasProperties(
+  "first_name",
+  "last_name",
+  "mobile_number",
+  "reservation_date",
+  "reservation_time",
+  "people",
+);
+
 /**
  * List handler for reservation resources
  */
@@ -31,14 +40,6 @@ function hasOnlyValidProperties(req, res, next) {
   next();
 }
 
-const hasRequiredProperties = hasProperties(
-  "first_name",
-  "last_name",
-  "mobile_number",
-  "reservation_date",
-  "reservation_time",
-  "people",
-);
 
 // number of people in reservation is a number >1
 function hasPeople(req, res, next) {
@@ -91,16 +92,15 @@ async function create(req, res) {
 
 async function list(req, res) {
   // check to see whether date = yyyy-mm-dd
-  const reservationDate = req.query.date;
-  console.log("***********", reservationDate);
-  let data = [];
-  // if so return only the reservations for that day
-  if (reservationDate) {
-    data = await reservationsService.hasDate(reservationDate);
-  // otherwise return the reservations for today
-  } else {
-    data = await reservationsService.list();
-  }
+  const date = req.query.date;
+
+  // let data = [];
+  // // if so return only the reservations for that day
+  // if (reservationDate) {
+  //   data = await reservationsService.hasDate(reservationDate);
+  // // otherwise return the reservations for today
+  // } else {
+    data = await reservationsService.list(date);
   res.json({ data });
 }
 
