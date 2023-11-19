@@ -10,21 +10,12 @@ const hasRequiredProperties = hasProperties(
 );
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
+
 /**
  * List handler for reservation resources
  */
 
 // middleware for create, update
-
-// function asDateString(date) {
-//   return `${date.getFullYear().toString(10)}-${(date.getMonth() + 1)
-//     .toString(10)
-//     .padStart(2, "0")}-${date.getDate().toString(10).padStart(2, "0")}`;
-// }
-
-// function today() {
-//   return asDateString(new Date());
-// }
 
 const VALID_PROPERTIES = [
   "first_name",
@@ -72,40 +63,53 @@ async function isDate(req, res, next) {
       message: "Field reservation_date must be in YYYY-MM-DD format.",
     });
   }
-  return next();
+  next();
+}
+
+function asDateString(date) {
+  return `${date.getFullYear().toString(10)}-${(date.getMonth() + 1)
+    .toString(10)
+    .padStart(2, "0")}-${date.getDate().toString(10).padStart(2, "0")}`;
+}
+
+function today() {
+  return asDateString(new Date());
 }
 
 // Date is in the future
-// async function dateIsFuture(req, res, next) {
-//   const todaysDate = today();
-//   const { data: reservation_date = {} } = req.body;
-//   console.log("THIS IS THE DATE: ", reservation_date);
-//   if (todaysDate < reservation_date) {
-//     return next({
-//       status: 400,
-//       message: "The reservation_date must be in the future.",
-//     })
-//   };
-//   return next();
-// }
+async function dateIsFuture(req, res, next) {
+  const today = new Date()
+  const { data: { reservation_date } = {} } = req.body;
+  const requestedDate = new Date(reservation_date);
+  if (today > requestedDate) {
+    return next({
+      status: 400,
+      message: "The reservation_date must be in the future.",
+    })
+  };
+  next();
+}
 
 // Date is not a Tuesday
-// async function dayIsValid(req, res, next) {
-//   const { data: reservation_date = {} } = req.body;
-//   const weekday = new Date(reservation_date);
-//   console.log("IS IT TUESDAY?", weekday);
-//   if (weekday === 2) {
-//     return next({
-//       status: 400,
-//       message: "Periodic Tables is closed on Tuesdays.",
-//     })
-//   };
-//   next();
-// }
+async function dayIsValid(req, res, next) {
+  const { data: { reservation_date } = {} } = req.body;
+  console.log("Reservation Date input: ", reservation_date);
+  const formattedReservationDate = new Date(reservation_date);
+  console.log("Formatted Date", formattedReservationDate);
+  const reservationDay = formattedReservationDate.getUTCDay();
+  console.log("Is it a Tuesday?", reservationDay);
+  if (reservationDay === 2) {
+    return next({
+      status: 400,
+      message: "Periodic Tables is closed on Tuesdays.",
+    })
+  };
+  next();
+}
 
 // time is in the correct format
-const timeFormat = /^\d\d:\d\d$/;
 async function isTime(req, res, next) {
+  const timeFormat = /^\d\d:\d\d$/;
   const { data: { reservation_time } = {} } = req.body;
   if (!timeFormat.test(reservation_time)) {
     return next({
@@ -150,8 +154,8 @@ module.exports = {
     hasRequiredProperties,
     hasPeople,
     isDate,
-    // dateIsFuture,
-    // dayIsValid,
+    dateIsFuture,
+    dayIsValid,
     isTime,
     asyncErrorBoundary(create),
   ],

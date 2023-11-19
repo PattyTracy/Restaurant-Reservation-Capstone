@@ -38,3 +38,5 @@
 -       imported 2 functions from front-end/utils/date-time.js 
         to complete GET functions for /reservations route
 -       troubleshooting until all tests for US-#1 pass
+-       completed 2 functions to validate that the date is in the
+        future and is not a Tuesday when the restaurant is closed
