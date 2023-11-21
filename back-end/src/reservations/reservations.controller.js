@@ -66,48 +66,33 @@ async function isDate(req, res, next) {
   next();
 }
 
-// set date in local time zone
-// function toLocalTime() {
-//   const serverTimeZone = "America/New_York";
-//   const requestedDate = new Date(reservation_date);
-//   console.log("Same date as a Date object: ", requestedDate);
-//   console.log(
-//     "Now the date is local",
-//     requestedDate.toLocaleString("en-US", { timeZone: serverTimeZone })
-//   );
-//   return (localDate = requestedDate.toLocaleString("en-US", {
-//     timeZone: serverTimeZone,
-//   }));
-// }
-
 // confirm date is in the future
 async function dateIsFuture(req, res, next) {
+  const today = new Date()
   const { data: { reservation_date } = {} } = req.body;
-  console.log("Here's the input date: ", reservation_date);
-  const localDate = toLocalTime(reservation_date);
-  const today = new Date();
-  if (today > localDate) {
+  const requestedDate = new Date(reservation_date);
+  if (today > requestedDate) {
     return next({
       status: 400,
       message: "The reservation_date must be in the future.",
-    });
-  }
+    })
+  };
   next();
 }
 
 // confirm date is not a Tuesday
 async function dayIsValid(req, res, next) {
-  const reservationDay = localDate.getUTCDay();
-  console.log("Is it a Tuesday?", reservationDay);
+  const { data: { reservation_date } = {} } = req.body;
+  const formattedReservationDate = new Date(reservation_date);
+  const reservationDay = formattedReservationDate.getUTCDay();
   if (reservationDay === 2) {
     return next({
       status: 400,
       message: "Periodic Tables is closed on Tuesdays.",
-    });
-  }
+    })
+  };
   next();
 }
-
 
 // confirm time is in the correct format
 async function isTime(req, res, next) {
@@ -125,7 +110,11 @@ async function isTime(req, res, next) {
 // confirm time is between 10:30 am and 9:30 pm
 async function timeIsValid(req, res, next) {
 const { data: { reservation_time } = {} } = req.body;
-if (!"10:30" <= reservation_time || !reservation_time <= "21:30") {
+const userTime = new Date(`2023-01-01 ${reservation_time}`);
+const minTime = new Date('2023-01-01 10:30');
+const maxTime = new Date('2023-01-01 21:30');
+
+if (userTime < minTime || userTime > maxTime) {
   return next({
     status: 400,
     message: "Reservation time must be between 10:30 am and 9:30 pm.",
