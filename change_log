@@ -40,3 +40,10 @@
 -       troubleshooting until all tests for US-#1 pass
 -       completed 2 functions to validate that the date is in the
         future and is not a Tuesday when the restaurant is closed
+- US-#3: (for User Story #3)
+-       Writing middleware to confirm time is between 10:30-21:30
+-       Created "GET" route for "tables"
+-       Updated "tables" to remove "seat" column and change
+        properties of "reservation_id" to default to NULL value
+- US-#4: (for User Story #4)
+-       Continue working on User Story #4 tests
