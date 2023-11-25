@@ -17,6 +17,7 @@
 
 # Branches
 - Main
+-       Worked on User Story #4 until 15/17 tests were passing
 - db-connection:
 -       created db's for dev, test, preview & prod & connected them
 -       defined rows in "reservations" table
@@ -45,5 +46,5 @@
 -       Created "GET" route for "tables"
 -       Updated "tables" to remove "seat" column and change
         properties of "reservation_id" to default to NULL value
-- US-#4: (for User Story #4)
--       Continue working on User Story #4 tests
+- User#4: (for User Story #4)
+-       Completed tests for User Story #4 tests
