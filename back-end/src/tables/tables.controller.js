@@ -61,7 +61,8 @@ async function tableExists(req, res, next) {
 }
 
 // confirm req.body has data
-function hasData(req, res, next) {
+async function hasData(req, res, next) {
+  const table = await tablesService.read(req.params.table_id);
   const { data } = req.body;
   if (!data) {
     return next({
@@ -102,6 +103,8 @@ async function reservationIdExists(req, res, next) {
   });
 }
 
+
+
 // confirm table has capacity for the new reservation
 async function hasCapacity(req, res, next) {
   const {
@@ -109,7 +112,6 @@ async function hasCapacity(req, res, next) {
   } = req.body;
   const targetReservation = await reservationsService.read(reservation_id);
   const table = await tablesService.read(req.params.table_id);
-  console.log("table in hasCapacity: ", table);
   if (table.capacity < targetReservation.people) {
     return next({
       status: 400,
@@ -121,12 +123,10 @@ async function hasCapacity(req, res, next) {
 
 // confirm table is free before seating a reservation_id
 async function tableIsFree(req, res, next) {
-  const table = await tablesService.read(req.params.table_id);
-  console.log("Table within tableIsFree: ", table);
-  if (table.reservation_id) {
+  if (res.locals.table.reservation_id) {
     return next({
       status: 400,
-      message: `Table with table_id ${req.params.table_id} is occupied.`,
+      message: "The selected table is occupied.",
     });
   }
   next();
@@ -143,14 +143,15 @@ async function create(req, res) {
 }
 
 async function update(req, res) {
-  const table = await tablesServices.read(req.params.table_id);
-  console.log("Found the table: ", table);
+  const table = await tablesService.read(req.params.table_id);
+  const { data: { reservation_id } } = req.body;
   const updatedTable = {
     ...table,
-    reservation_id: req.body.reservation_id,
+    reservation_id: reservation_id,
   };
   await tablesService.update(updatedTable);
-  res.status(200);
+  data = await tablesService.read(updatedTable.table_id);
+  res.json({ data });
 }
 
 function read(req, res, next) {
@@ -171,6 +172,7 @@ module.exports = {
     hasData,
     hasReservationId,
     reservationIdExists,
+    tableExists,
     hasCapacity,
     tableIsFree,
     asyncErrorBoundary(update),
