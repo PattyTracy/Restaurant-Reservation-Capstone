@@ -47,3 +47,6 @@
         properties of "reservation_id" to default to NULL value
 - US-#4: (for User Story #4)
 -       Continue working on User Story #4 tests
+- US-#5: (for User Story #5)
+-       Create DELETE request for /tables/:table_id/seat
+-       Repaired corrupt migration files & fixtures/tables
