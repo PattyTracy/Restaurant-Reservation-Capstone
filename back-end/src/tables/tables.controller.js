@@ -132,6 +132,19 @@ async function tableIsFree(req, res, next) {
   next();
 }
 
+// confirm a table is occupied before deleting the reservation_id
+// and freeing up a table
+async function tableIsOccupied(req, res, next) {
+  const { reservation_id } = res.locals.table;
+  console.log("Target reservation_id: ", reservation_id);
+  if (!reservation_id) {
+    return next({
+      status: 400,
+      message: "Table is not occupied.",
+
+    });
+  }
+=======
 // confirm reservation.status isn't "seated" before updating
 function reservationNotSeated(req, res, next) {
   if (res.locals.reservation === "seated") {
@@ -155,7 +168,9 @@ async function create(req, res) {
 
 async function update(req, res) {
   const table = await tablesService.read(req.params.table_id);
-  const { data: { reservation_id } } = req.body;
+  const {
+    data: { reservation_id },
+  } = req.body;
   const updatedTable = {
     ...table,
     reservation_id: reservation_id,
@@ -170,8 +185,21 @@ function read(req, res, next) {
   const data = res.locals.table;
   res.json({ data });
 }
-
-// need to update this branch to include "destroy" function
+  
+  
+// delete a reservation (free up the table)
+async function destroy(req, res, next) {
+  const table = res.locals.table;
+  console.log("Controller - destroy this: ", table.reservation_id);
+  const updatedTable = {
+    ...table,
+    reservation_id: null,
+  };
+  await tablesService.update(updatedTable);
+  console.log("Are we here? ");
+  data = await tablesService.read(updatedTable.table_id);
+  res.json({ data });
+}
 
 module.exports = {
   list: asyncErrorBoundary(list),
@@ -193,4 +221,5 @@ module.exports = {
     asyncErrorBoundary(update),
   ],
   read: [tableExists, asyncErrorBoundary(read)],
+  delete: [tableExists, tableIsOccupied, asyncErrorBoundary(destroy)],
 };
