@@ -144,6 +144,15 @@ async function tableIsOccupied(req, res, next) {
 
     });
   }
+=======
+// confirm reservation.status isn't "seated" before updating
+function reservationNotSeated(req, res, next) {
+  if (res.locals.reservation === "seated") {
+    return next({
+      status:400,
+      message: "Reservation is already seated."
+    })
+  };
   next();
 }
 
@@ -165,6 +174,7 @@ async function update(req, res) {
   const updatedTable = {
     ...table,
     reservation_id: reservation_id,
+    // also has to update reservations.status
   };
   await tablesService.update(updatedTable);
   data = await tablesService.read(updatedTable.table_id);
@@ -175,7 +185,8 @@ function read(req, res, next) {
   const data = res.locals.table;
   res.json({ data });
 }
-
+  
+  
 // delete a reservation (free up the table)
 async function destroy(req, res, next) {
   const table = res.locals.table;
@@ -206,6 +217,7 @@ module.exports = {
     tableExists,
     hasCapacity,
     tableIsFree,
+    reservationNotSeated,
     asyncErrorBoundary(update),
   ],
   read: [tableExists, asyncErrorBoundary(read)],
