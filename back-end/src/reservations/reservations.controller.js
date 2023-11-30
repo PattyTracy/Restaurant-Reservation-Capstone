@@ -24,6 +24,7 @@ const VALID_PROPERTIES = [
   "reservation_date",
   "reservation_time",
   "people",
+  "status",
 ];
 
 function hasOnlyValidProperties(req, res, next) {
@@ -38,6 +39,18 @@ function hasOnlyValidProperties(req, res, next) {
       status: 400,
       message: `Invalid field(s): ${invalidFields.join(", ")}`,
     });
+  next();
+}
+
+// confirm status for "create" can only be "booked"
+function statusIsBooked(req, res, next) {
+  const { data: { status } } = req.body;
+  if (status === "seated" || status === "finished") {
+    return next({
+      status: 400,
+      message: "New reservation status cannot be 'seated' or 'finished'.",
+    })
+  }
   next();
 }
 
@@ -123,6 +136,7 @@ if (userTime < minTime || userTime > maxTime) {
 next();
 }
 
+// confirm a given reservation_id exists
 async function reservationExists(req, res, next) {
   const reservation = await reservationsService.read(req.params.reservation_id);
   if (reservation) {
@@ -133,6 +147,48 @@ async function reservationExists(req, res, next) {
     status: 404,
     message: `Reservation with id ${req.params.reservation_id} cannot be found.`,
   });
+}
+
+// confirm a reservation status is booked, seated, or finished
+// prior to updating
+function statusIsValid(req, res, next) {
+  const VALID_STATUS = [
+    "booked",
+    "seated",
+    "finished"
+  ];
+  const { data: { status } } = req.body;
+  if (!VALID_STATUS.includes(status)) {
+    return next({
+      status: 400,
+      message: "Status is unknown.",
+    });
+  }
+  next();
+}
+
+// confirm current status is not "finished" prior to updating
+function statusNotFinished(req, res, next) {
+  console.log(res.locals.reservation.status);
+  if (res.locals.reservation.status === "finished") {
+    return next({
+      status: 400,
+      message: "Current reservation status cannot be 'finished'.",
+    })
+  }
+  next();
+}
+
+async function update(req, res) {
+  const { data: { status } } = req.body;
+const updatedReservation = {
+  ...res.locals.reservation,
+  status: status,
+};
+await reservationsService.update(updatedReservation);
+data = await reservationsService.read(updatedReservation.reservation_id);
+res.json({ data });
+
 }
 
 async function create(req, res) {
@@ -155,6 +211,7 @@ module.exports = {
   create: [
     hasOnlyValidProperties,
     hasRequiredProperties,
+    statusIsBooked,
     hasPeople,
     isDate,
     dateIsFuture,
@@ -165,4 +222,10 @@ module.exports = {
   ],
   list: asyncErrorBoundary(list),
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
+  update: [
+    reservationExists, 
+    statusIsValid,
+    statusNotFinished,
+    asyncErrorBoundary(update),
+  ]
 };
