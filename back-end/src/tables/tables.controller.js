@@ -103,6 +103,8 @@ async function reservationIdExists(req, res, next) {
   });
 }
 
+
+
 // confirm table has capacity for the new reservation
 async function hasCapacity(req, res, next) {
   const {
@@ -139,6 +141,7 @@ async function tableIsOccupied(req, res, next) {
     return next({
       status: 400,
       message: "Table is not occupied.",
+
     });
   }
   next();

@@ -17,6 +17,7 @@
 
 # Branches
 - Main
+-       Worked on User Story #4 until 15/17 tests were passing
 - db-connection:
 -       created db's for dev, test, preview & prod & connected them
 -       defined rows in "reservations" table
@@ -50,3 +51,5 @@
 - US-#5: (for User Story #5)
 -       Create DELETE request for /tables/:table_id/seat
 -       Repaired corrupt migration files & fixtures/tables
+- User#4: (for User Story #4)
+-       Completed tests for User Story #4 tests
