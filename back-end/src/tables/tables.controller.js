@@ -144,7 +144,7 @@ async function tableIsOccupied(req, res, next) {
 
     });
   }
-=======
+}
 // confirm reservation.status isn't "seated" before updating
 function reservationNotSeated(req, res, next) {
   if (res.locals.reservation === "seated") {

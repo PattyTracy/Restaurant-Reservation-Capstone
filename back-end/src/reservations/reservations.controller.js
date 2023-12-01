@@ -185,7 +185,7 @@ const updatedReservation = {
   ...res.locals.reservation,
   status: status,
 };
-await reservationsService.update(updatedReservation);
+await reservationsService.seat(updatedReservation);
 data = await reservationsService.read(updatedReservation.reservation_id);
 res.json({ data });
 

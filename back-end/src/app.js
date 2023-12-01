@@ -12,6 +12,13 @@ const tablesRouter = require("./tables/tables.router");
 
 const app = express();
 
+// set up rate limiter: maximum of five requests per minute
+// const RateLimit = require('express-rate-limit');
+// const limiter = RateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // max 100 requests per windowMs
+// });
+
 app.use(cors());
 app.use(express.json());
 
@@ -21,15 +28,9 @@ app.use("/tables", tablesRouter);
 app.use(notFound);
 app.use(errorHandler);
 
-// set up rate limiter: maximum of five requests per minute
-var RateLimit = require('express-rate-limit');
-var limiter = RateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // max 100 requests per windowMs
-});
 
 // apply rate limiter to all requests
-app.use(limiter);
+// app.use(limiter);
 
 app.get('/:path', function(req, res) {
   let path = req.params.path;
