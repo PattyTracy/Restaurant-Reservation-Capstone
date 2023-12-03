@@ -18,10 +18,8 @@
 # Branches
 - Main
 -       Worked on User Story #4 until 15/17 tests were passing
--       Had some odd things going on between local and remote repos. There were
-        a lot of untracked changes after merging US-#5 to Main in GitHub. 
-        The problem seemed to be that the changes needed to be merged locally
-        after a git pull request.
+-       Had some odd things going on between local and remote repos. There were a lot of untracked changes after merging US-#5 to Main in GitHub. The problem seemed to be that the changes needed to be merged locally after a git pull request.
+-       Completed functions for User Story #6.
 - db-connection:
 -       created db's for dev, test, preview & prod & connected them
 -       defined rows in "reservations" table
