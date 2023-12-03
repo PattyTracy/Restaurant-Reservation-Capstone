@@ -178,26 +178,31 @@ function statusNotFinished(req, res, next) {
   next();
 }
 
-// seat a reservation
+// change a reservation status from booked to seated
+async function seat(req, res) {
+  const { data: { reservation_id } } = req.params;
+  const reservation = await reservationsService.read(reservation_id);
+  const updatedReservation = {
+  ...reservation,
+  status: "seated",
+};
+await reservationsService.update(updatedReservation);
+data = await reservationsService.read(updatedReservation.reservation_id);
+res.json({ data });
+}
+
+// update a reservation's status
 async function update(req, res) {
   const { data: { status } } = req.body;
-  console.log("Status in Req.body: ", status);
-  console.log("This is the reservation: ", res.locals.reservation);
 const updatedReservation = {
   ...res.locals.reservation,
   status: status,
 };
-console.log("And now it's updated! ", updatedReservation);
-if (updatedReservation.status = "booked") {
-  await reservationsService.update(updatedReservation)
-}
-if (updatedReservation.status = "seated") {
-  await reservationsService.seat(updatedReservation.reservation_id);
+  await reservationsService.update(updatedReservation);
+  data = await reservationsService.read(updatedReservation.reservation_id);
+  res.json({ data })
 };
-data = await reservationsService.read(updatedReservation.reservation_id);
-res.json({ data });
 
-}
 
 // create a new reservation with status "booked"
 async function create(req, res) {
@@ -235,5 +240,11 @@ module.exports = {
     statusIsValid,
     statusNotFinished,
     asyncErrorBoundary(update),
+  ],
+  seat: [
+    reservationExists,
+    statusIsValid,
+    statusNotFinished,
+    asyncErrorBoundary(seat),
   ]
 };
