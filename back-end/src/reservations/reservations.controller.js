@@ -203,6 +203,12 @@ const updatedReservation = {
   res.json({ data })
 };
 
+// search for a reservation by mobile number
+async function search(res, req) {
+  const mobile_number = req.query.mobile_number;
+  data = await reservationsService.search(mobile_number);
+  res.json({ data });
+}
 
 // create a new reservation with status "booked"
 async function create(req, res) {
@@ -212,9 +218,16 @@ async function create(req, res) {
 
 async function list(req, res) {
   const date = req.query.date;
+  const mobile_number = req.query.mobile_number;
+  if (date) {
   data = await reservationsService.list(date);
+}
+if (mobile_number) {
+  data = await reservationsService.search(mobile_number);
+}
   res.json({ data });
 }
+
 function read(req, res, next) {
   const data = res.locals.reservation;
   res.json({ data });
@@ -246,5 +259,5 @@ module.exports = {
     statusIsValid,
     statusNotFinished,
     asyncErrorBoundary(seat),
-  ]
+  ],
 };

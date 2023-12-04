@@ -65,3 +65,8 @@
 -       All environments are seeded with data
 - rate:
         Added rate limiter function to app.js to resolve GitHub error/alert
+- US-#7: (for User Story #7)
+        Modified reservations.controller "list" function to check for a
+        mobile_number query and if so, to use the given (from ReadMe) 
+        "search" function in reservations.service to search for reservations 
+        with a given phone number.

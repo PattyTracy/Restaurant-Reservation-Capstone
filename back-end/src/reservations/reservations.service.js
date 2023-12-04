@@ -10,27 +10,6 @@ function today() {
     return asDateString(new Date());
   }
 
-// use transactions to sync tables & reservations
-// no join
-// interact with what's coming in
-
-// move to tables.service?
-// function seat(reservation_id, table_id) {
-//     knex.transaction(async (trx) => {
-//         await knex("reservations")
-//         .where("reservation_id", reservation_id)
-//         .update({ status: "seated" })
-//         .transacting(trx)
-
-//         return knex("tables")
-//         .where({ table_id })
-//         // .where({ table_id: "table_id" })
-//         .update({ reservation_id }, "*")
-//         .transacting(trx)
-//         .then(record => record[0])
-//         })
-// }
-
 // change the status of a reservation
 function update(updatedReservation) {
     return knex("reservations")
@@ -56,6 +35,16 @@ function list(date = today()) {
     .orderBy("reservation_time", "asc")
 }
 
+// search for a reservation by mobile number
+function search(mobile_number) {
+    return knex("reservations")
+    .whereRaw(
+    "translate(mobile_number, '() -', '') like ?",
+    `%${mobile_number.replace(/\D/g, "")}%`
+    )
+    .orderBy("reservation_date");
+    }
+
 // get a reservation with a given reservation_id
 function read(reservation_id) {
     return knex("reservations").select("*")
@@ -66,6 +55,6 @@ module.exports = {
     update,
     create,
     list,
+    search,
     read,
-    // seat
 };
