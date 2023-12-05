@@ -29,7 +29,6 @@ const VALID_PROPERTIES = [
 
 function hasOnlyValidProperties(req, res, next) {
   const { data = {} } = req.body;
-
   const invalidFields = Object.keys(data).filter(
     (field) => !VALID_PROPERTIES.includes(field)
   );
@@ -117,7 +116,7 @@ async function isTime(req, res, next) {
       message: "Field reservation_time must be in HH:MM format.",
     });
   }
-  return next();
+  next();
 }
 
 // confirm time is between 10:30 am and 9:30 pm
@@ -191,16 +190,26 @@ data = await reservationsService.read(updatedReservation.reservation_id);
 res.json({ data });
 }
 
-// update a reservation's status
-async function update(req, res) {
+// cancel an existing reservation
+async function edit(req, res) {
   const { data: { status } } = req.body;
+  const { reservation_id }  = res.locals.reservation;
+  console.log("Status is ", status);
+  
+  console.log("Reservation ID : ", reservation_id);
+  await reservationsService.edit(reservation_id, status);
+  data = await reservationsService.read(reservation_id);
+  res.status(200).json({ data });
+}
+
+// update an existing reservation
+async function update(req, res) {
 const updatedReservation = {
-  ...res.locals.reservation,
-  status: status,
+  ...req.body.data,
+  reservation_id: res.locals.reservation.reservation_id,
 };
-  await reservationsService.update(updatedReservation);
-  data = await reservationsService.read(updatedReservation.reservation_id);
-  res.json({ data })
+  const data = await reservationsService.update(updatedReservation);
+  res.status(200).json({ data })
 };
 
 // search for a reservation by mobile number
@@ -250,8 +259,14 @@ module.exports = {
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
   update: [
     reservationExists,
-    statusIsValid,
-    statusNotFinished,
+    hasRequiredProperties,
+    hasPeople,
+    isDate,
+    dateIsFuture,
+    dayIsValid,
+    isTime,
+    timeIsValid,
+    statusIsBooked,
     asyncErrorBoundary(update),
   ],
   seat: [
@@ -260,4 +275,10 @@ module.exports = {
     statusNotFinished,
     asyncErrorBoundary(seat),
   ],
+
+  edit: [
+    reservationExists,
+    statusIsBooked,
+    asyncErrorBoundary(edit)
+  ]
 };
