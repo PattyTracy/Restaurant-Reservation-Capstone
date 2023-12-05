@@ -36,7 +36,6 @@ function tableNameIsValid(req, res, next) {
 }
 
 // confirm table has capacity of a number > 0
-
 function tableCapacityIsValid(req, res, next) {
   const { data: { capacity } = {} } = req.body;
   if (typeof capacity !== "number" || capacity < 1)
@@ -60,11 +59,21 @@ async function tableExists(req, res, next) {
   });
 }
 
-//confirm req.body has reservation_id
-async function hasReservationId(req, res, next) {
-  const {
-    data: { reservation_id },
-  } = req.body;
+//confirm req.body has data
+async function bodyHasData(req, res, next) {
+  const { data } = req.body;
+  if (!data) {
+    return next({
+      status: 400,
+      message: "A reservation_id is required.",
+    });
+  }
+  next();
+}
+
+// confirm req.body is the reservation_id
+async function bodyHasReservationId(req, res, next) {
+  const { data: { reservation_id } } = req.body;
   if (!reservation_id) {
     return next({
       status: 400,
@@ -76,9 +85,8 @@ async function hasReservationId(req, res, next) {
 
 // confirm reservation_id is valid
 async function reservationIdExists(req, res, next) {
-  const {
-    data: { reservation_id },
-  } = req.body;
+  const { data: { reservation_id } } = req.body;
+  console.log("reservation Id is ", reservation_id);
   const reservation = await reservationsService.read(reservation_id);
   if (reservation) {
     res.locals.reservation = reservation;
@@ -92,9 +100,7 @@ async function reservationIdExists(req, res, next) {
 
 // confirm table has capacity for the new reservation
 async function hasCapacity(req, res, next) {
-  const {
-    data: { reservation_id },
-  } = req.body;
+  const { data: { reservation_id } } = req.body;
   const targetReservation = await reservationsService.read(reservation_id);
   const table = await tablesService.read(req.params.table_id);
   if (table.capacity < targetReservation.people) {
@@ -153,12 +159,10 @@ async function create(req, res) {
 
 // seat a reservation_id at a table_id
 async function update(req, res) {
-  const table = await tablesService.read(req.params.table_id);
-  const {
-    data: { reservation_id },
-  } = req.body;
+  // const table = await tablesService.read(req.params.table_id);
+  const { data: { reservation_id } } = req.body;
   const updatedTable = {
-    ...table,
+    ...res.locals.table,
     reservation_id: reservation_id,
   };
   await tablesService.seat(reservation_id, updatedTable.table_id);
@@ -175,9 +179,7 @@ function read(req, res, next) {
 // delete a reservation (free up the table)
 async function destroy(req, res) {
   const table = await tablesService.read(req.params.table_id);
-  const {
-    data: { reservation_id },
-  } = req.body;
+  const { data: { reservation_id } } = req.body;
   const updatedTable = {
     ...table,
     reservation_id: null,
@@ -197,7 +199,8 @@ module.exports = {
     asyncErrorBoundary(create),
   ],
   update: [
-    hasReservationId,
+    bodyHasData,
+    bodyHasReservationId,
     reservationIdExists,
     tableExists,
     hasCapacity,
