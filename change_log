@@ -65,3 +65,4 @@
 -       All environments are seeded with data
 - rate:
         Added rate limiter function to app.js to resolve GitHub error/alert
+- US-#8: (for User Story #8)
