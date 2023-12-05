@@ -86,7 +86,6 @@ async function bodyHasReservationId(req, res, next) {
 // confirm reservation_id is valid
 async function reservationIdExists(req, res, next) {
   const { data: { reservation_id } } = req.body;
-  console.log("reservation Id is ", reservation_id);
   const reservation = await reservationsService.read(reservation_id);
   if (reservation) {
     res.locals.reservation = reservation;
@@ -126,15 +125,17 @@ async function tableIsFree(req, res, next) {
 // confirm a table is occupied before deleting the reservation_id
 // and freeing up a table
 async function tableIsOccupied(req, res, next) {
- const { table_id } = req.params;
+ const { table_id } = res.locals.table;
+ console.log("Table id is ", table_id);
  const table = await tablesService.read(table_id);
-  if (table.reservation_id === null) {
-    return next({
-      status: 400,
-      message: "Table is not occupied.",
-    });
+ console.log("Heres the fetched table: ", table);
+  if (table.reservation_id) {
+    return next();
   }
-  next();
+  next({
+    status: 400,
+      message: "Table is not occupied.",
+  });
 }
 // confirm reservation.status isn't "seated" before updating
 function reservationNotSeated(req, res, next) {
@@ -179,14 +180,13 @@ function read(req, res, next) {
 // delete a reservation (free up the table)
 async function destroy(req, res) {
   const table = await tablesService.read(req.params.table_id);
-  const { data: { reservation_id } } = req.body;
   const updatedTable = {
     ...table,
     reservation_id: null,
   };
-  await tablesService.finish(reservation_id, table.table_id);
+  await tablesService.finish(res.locals.table.reservation_id, table.table_id);
   data = await tablesService.read(updatedTable.table_id);
-  res.json({ data });
+  res.status(200).json({ data });
 }
 
 module.exports = {
@@ -209,5 +209,9 @@ module.exports = {
     asyncErrorBoundary(update),
   ],
   read: [tableExists, asyncErrorBoundary(read)],
-  delete: [tableIsOccupied, asyncErrorBoundary(destroy)],
+  delete: [
+    tableExists,
+    tableIsOccupied, 
+    asyncErrorBoundary(destroy)
+  ],
 };
