@@ -11,20 +11,20 @@ function today() {
   }
 
 // change the status of a reservation
-function update(updatedReservation) {
+function update(reservation_id, status) {
+    return knex("reservations")
+    .select("*")
+    .where({ reservation_id })
+    .update({ status: status })
+    .then((createdRecords) => createdRecords[0]);
+}
+
+function edit(updatedReservation) {
     return knex("reservations")
     .select("*")
     .where({ reservation_id: updatedReservation.reservation_id })
     .update(updatedReservation, "*")
     .then((updatedRecords) => updatedRecords[0]);
-}
-
-function edit(reservation_id, status) {
-    return knex("reservations")
-    .select("*")
-    .where({ reservation_id })
-    .update({ status: status })
-    .then((updatedRecords) => updatedRecords[0])
 }
 
 // create a new reservation

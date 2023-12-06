@@ -126,9 +126,7 @@ async function tableIsFree(req, res, next) {
 // and freeing up a table
 async function tableIsOccupied(req, res, next) {
  const { table_id } = res.locals.table;
- console.log("Table id is ", table_id);
  const table = await tablesService.read(table_id);
- console.log("Heres the fetched table: ", table);
   if (table.reservation_id) {
     return next();
   }
