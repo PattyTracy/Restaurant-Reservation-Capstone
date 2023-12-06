@@ -175,31 +175,23 @@ function newStatusIsValid(req, res, next) {
 }
 
 // update an existing reservation's status
-async function update(req, res) {
+async function updateStatus(req, res) {
   const { data: { status } } = req.body;
-  await reservationsService.update(res.locals.reservation.reservation_id, status);
+  await reservationsService.updateStatus(res.locals.reservation.reservation_id, status);
   const data = await reservationsService.read(res.locals.reservation.reservation_id);
   res.status(200).json({ data });
 }
 
 // update an existing reservation
-async function edit(req, res) {
-  console.log("req.body.data: ", req.body.data, "reservationID: ", res.locals.reservation.reservation_id);
-  const updatedReservation = {
+async function update(req, res) {
+    const updatedReservation = {
     ...req.body.data,
     reservation_id: res.locals.reservation.reservation_id,
   };
-    await reservationsService.edit(updatedReservation);
+    await reservationsService.update(updatedReservation);
     const data = await reservationsService.read(updatedReservation.reservation_id)
     res.status(200).json({ data })
   };
-
-// search for a reservation by mobile number
-async function search(res, req) {
-  const mobile_number = req.query.mobile_number;
-  data = await reservationsService.search(mobile_number);
-  res.json({ data });
-}
 
 // create a new reservation with status "booked"
 async function create(req, res) {
@@ -243,7 +235,7 @@ module.exports = {
     reservationExists,
     statusToUpdate,
     newStatusIsValid,
-    asyncErrorBoundary(update),
+    asyncErrorBoundary(updateStatus),
   ],
   update: [
     reservationExists,
@@ -255,6 +247,6 @@ module.exports = {
     isTime,
     timeIsValid,
     statusIsBooked,
-    asyncErrorBoundary(edit),
+    asyncErrorBoundary(update),
   ]
 };

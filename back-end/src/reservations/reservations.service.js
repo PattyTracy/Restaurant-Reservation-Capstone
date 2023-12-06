@@ -11,7 +11,7 @@ function today() {
   }
 
 // change the status of a reservation
-function update(reservation_id, status) {
+function updateStatus(reservation_id, status) {
     return knex("reservations")
     .select("*")
     .where({ reservation_id })
@@ -19,7 +19,7 @@ function update(reservation_id, status) {
     .then((createdRecords) => createdRecords[0]);
 }
 
-function edit(updatedReservation) {
+function update(updatedReservation) {
     return knex("reservations")
     .select("*")
     .where({ reservation_id: updatedReservation.reservation_id })
@@ -61,10 +61,10 @@ function read(reservation_id) {
 }
 
 module.exports = {
-    update,
+    updateStatus,
     create,
     list,
     search,
     read,
-    edit
+    update
 };
