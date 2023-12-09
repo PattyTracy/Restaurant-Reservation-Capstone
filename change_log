@@ -71,4 +71,14 @@
         "search" function in reservations.service to search for reservations 
         with a given phone number.
 - US-#8: (for User Story #8)
+<<<<<<< HEAD
 - F-US-#2: (front end for User Story #2)
+=======
+- issues-#x: created to correct issues with User Stories 4, 5 and 6 that
+        emerged after the back end files were completed. Also renamed 
+        the "update" and "edit" functions in the reservations table
+        to "updateStatus" and "update" for clarity.
+- F-US-#1 (F for front end, User Story #1)
+-       Wrote component NewReservation to create and save a new reservation. Also wrote a ReservationForm component that can be re-used that has the form with input fields. This can be used for create reservation, update reservation, and change status.
+-        Created previous, today and next buttons on dashboard. They work locally but I'm unable to run tests.
+>>>>>>> 06d858eb1496fdd83cb2b7f0ffe17506cd721779
