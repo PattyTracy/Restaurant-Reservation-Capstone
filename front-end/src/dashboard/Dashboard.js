@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { listReservations } from "../utils/api";
+import ReservationView from "../Components/Reservations/ReservationView";
+import NavDateButtons from "../Components/Buttons";
 import ErrorAlert from "../layout/ErrorAlert";
+import { DatabaseError } from "pg";
 
 /**
  * Defines the dashboard page.
@@ -8,9 +12,16 @@ import ErrorAlert from "../layout/ErrorAlert";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
+
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const dateParam = queryParams.get('date');
+  if (dateParam) {
+    date = dateParam;
+  }
 
   useEffect(loadDashboard, [date]);
 
@@ -20,6 +31,7 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+
     return () => abortController.abort();
   }
 
@@ -27,10 +39,28 @@ function Dashboard({ date }) {
     <main>
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
+        <h4 className="mb-0">Reservations for date {DatabaseError}</h4>
+      </div>
+      <table className="mt-5 col-8">
+        <thead>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Mobile Number</th>
+          <th># in Party</th>
+          <th>Reservation Date</th>
+          <th>Reservation Time</th>
+        </thead>
+        <tbody>
+          {reservations.map((reservation, index) => (
+            <ReservationView reservation={reservation} index={index} />
+          ))}
+        </tbody>
+      </table>
+      <div>
+        <NavDateButtons />
       </div>
       <ErrorAlert error={reservationsError} />
-      {JSON.stringify(reservations)}
+
     </main>
   );
 }
