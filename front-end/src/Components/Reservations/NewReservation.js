@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createReservation } from "../../utils/api";
 import { useHistory } from "react-router-dom";
 import ReservationForm from "./ReservationForm";
+import ErrorAlert from "../../layout/ErrorAlert";
 
 function NewReservation() {
   const [reservation, setReservation] = useState({
@@ -10,17 +11,27 @@ function NewReservation() {
     mobile_number: "",
     reservation_date: "",
     reservation_time: "",
-    people: "",
+    people: ""
   });
-  const [error, setError] = useState(null);
+
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const history = useHistory();
   
   const handleChange = ({ target }) => {
+    if (target === "people") {
+      console.log("This many people: ", { target })
+      console.log("Make it a number: ", Number(target.value));
+      setReservation({
+        ...reservation,
+        [target.name]: Number(target.value)
+      });
+    } else {
     setReservation({
       ...reservation,
       [target.name]: target.value,
     });
+  }
   };
 
   const handleSubmit = async (event) => {
@@ -31,7 +42,7 @@ function NewReservation() {
       await createReservation(reservation, abortController.signal);
       history.push(`/dashboard?date=${reservation.reservation_date}`);
     } catch (error) {
-      setError([error]);
+      setErrorMessage([error.message]);
     }
     return () => abortController.abort();
   };
@@ -39,12 +50,13 @@ function NewReservation() {
   return (
     <div>
           <h4>New Reservation</h4>
+          <ErrorAlert error={errorMessage} />
           <ReservationForm
           reservation={reservation}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
           />
-          {error && <div className="error-message">{error}</div>}
+          {errorMessage && <div className="alert-alert-danger">{errorMessage}</div>}
           </div>
   );
 }
