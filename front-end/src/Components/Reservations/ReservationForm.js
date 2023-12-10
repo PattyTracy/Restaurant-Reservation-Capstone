@@ -6,9 +6,9 @@ function ReservationForm({ reservation, handleSubmit, handleChange }) {
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
-        <div className="row ml-2">
-          <label htmlFor="first_name">
-            First Name
+        <div className="row ml-2 mb-2">
+          <label htmlFor="first_name" className="mr-2"></label>
+            First Name 
             <input
               id="first_name"
               name="first_name"
@@ -18,8 +18,9 @@ function ReservationForm({ reservation, handleSubmit, handleChange }) {
               value={reservation.first_name}
             />
             <br></br>
-          </label>
-          <label htmlFor="last_name">Last Name</label>
+          
+          <span className="ml-4"></span>
+          <label htmlFor="last_name" className="mr-2">Last Name</label>
           <input
             id="last_name"
             name="last_name"
@@ -28,8 +29,10 @@ function ReservationForm({ reservation, handleSubmit, handleChange }) {
             onChange={handleChange}
             value={reservation.last_name}
           />
+        </div>
+        <div className="row ml-2">
           <br></br>
-          <label htmlFor="mobile_number"> </label>
+          <label htmlFor="mobile_number" className="mr-2"></label>
           Mobile Number
           <input
             id="mobile_number"
@@ -43,7 +46,7 @@ function ReservationForm({ reservation, handleSubmit, handleChange }) {
         </div>
         <br></br>
         <div className="row ml-2">
-          <label htmlFor="reservation_date">Reservation Date</label>
+          <label htmlFor="reservation_date" className="mr-2">Reservation Date</label>
           <input
             id="reservation_date"
             name="reservation_date"
@@ -52,7 +55,9 @@ function ReservationForm({ reservation, handleSubmit, handleChange }) {
             onChange={handleChange}
             value={reservation.reservation_date}
           />
-
+        </div>
+        <br></br>
+        <div className="row ml-2">
           <label htmlFor="reservation_time">Reservation time</label>
           <input
             id="reservation_time"
@@ -62,8 +67,10 @@ function ReservationForm({ reservation, handleSubmit, handleChange }) {
             onChange={handleChange}
             value={reservation.reservation_time}
           />
-
-          <label htmlFor="people">Number of Guests</label>
+        </div>
+        <br></br>
+        <div className="row ml-2">
+          <label htmlFor="people" className="mr=3">Number of Guests</label>
           <input
             id="people"
             name="people"
@@ -73,10 +80,12 @@ function ReservationForm({ reservation, handleSubmit, handleChange }) {
             value={reservation.people}
           />
         </div>
-        <button type="submit">Submit</button>
+        <div className="mt-4 ml-4">
+        <button type="submit" className="mr-3">Submit</button>
         <button type="cancel" onClick={() => history.goBack()}>
           Cancel
         </button>
+        </div>
       </fieldset>
     </form>
   );

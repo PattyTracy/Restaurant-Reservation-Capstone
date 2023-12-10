@@ -4,7 +4,6 @@ import { listReservations } from "../utils/api";
 import ReservationView from "../Components/Reservations/ReservationView";
 import NavDateButtons from "../Components/Buttons";
 import ErrorAlert from "../layout/ErrorAlert";
-import { DatabaseError } from "pg";
 
 /**
  * Defines the dashboard page.
@@ -16,6 +15,7 @@ import { DatabaseError } from "pg";
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const dateParam = queryParams.get('date');
@@ -39,8 +39,9 @@ function Dashboard({ date }) {
     <main>
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date {DatabaseError}</h4>
+        <h4 className="mb-0">Reservations for date </h4>
       </div>
+      <ErrorAlert error={reservationsError} />
       <table className="mt-5 col-8">
         <thead>
           <th>Last Name</th>
@@ -59,7 +60,6 @@ function Dashboard({ date }) {
       <div>
         <NavDateButtons />
       </div>
-      <ErrorAlert error={reservationsError} />
 
     </main>
   );
