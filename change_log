@@ -80,3 +80,7 @@
 -       Wrote component NewReservation to create and save a new reservation. Also wrote a ReservationForm component that can be re-used that has the form with input fields. This can be used for create reservation, update reservation, and change status.
 -        Created previous, today and next buttons on dashboard. They work locally but I'm unable to run tests.
 - F-US-#2: (front end for User Story #2)
+- F-Revising-1, 12/12/23: Still unable to run front-end tests. Test 1 on backend is now failing & needs to be fixed. 
+Updated 1/2/24: all back-end unit tests passing.
+Started working on user story 4, Seat Reservation. New tables function works but need to display tables on dashboard and add free/occupied status to each table. Also need seat button next to each reservation (add to ReservationView).
+To run the front-end tests, try starting up the server on its own, letting it get warmed up, then running the front-end tests separately using the commands in /front-end/package.json file.

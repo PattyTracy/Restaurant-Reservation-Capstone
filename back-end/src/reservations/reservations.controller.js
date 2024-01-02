@@ -58,7 +58,6 @@ function statusIsBooked(req, res, next) {
 // confirm number of people for "create" in reservation is a number >1
 function hasPeople(req, res, next) {
   let { data: { people } = {} } = req.body;
- people = Number(people);
   if (typeof people !== "number" || people < 1)
     return next({
       status: 400,

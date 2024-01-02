@@ -11,7 +11,7 @@ export default function ReservationView({ reservation, index }) {
 
   return (
     <div>
-<tr key={reservation.index}>
+<tr key={index}>
     <td>{reservation.last_name}</td>
     <td>{reservation.first_name}</td>
     <td>{reservation.mobile_number}</td>
