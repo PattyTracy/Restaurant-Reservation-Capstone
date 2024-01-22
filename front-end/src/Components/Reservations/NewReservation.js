@@ -3,7 +3,6 @@ import { createReservation } from "../../utils/api";
 import { useHistory } from "react-router-dom";
 import ReservationForm from "./ReservationForm";
 import ErrorAlert from "../../layout/ErrorAlert";
-import { ValidateValues } from "./ValidateValues";
 
 function NewReservation() {
   const [reservation, setReservation] = useState({
@@ -12,57 +11,53 @@ function NewReservation() {
     mobile_number: "",
     reservation_date: "",
     reservation_time: "",
-    people: "",
+    people: ""
   });
-  
-  const [errors, setErrors] = useState(null);
+
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const history = useHistory();
-
-      
-      const handleChange = ({ target }) => {
-        if (target === "people") {
-          setReservation({
-            ...reservation,
-        [target.name]: Number(target.value),
-      });
-    } else {
+  
+  const handleChange = ({ target }) => {
+    if (target === "people") {
+      console.log("This many people: ", { target })
+      console.log("Make it a number: ", Number(target.value));
       setReservation({
         ...reservation,
-        [target.name]: target.value,
+        [target.name]: Number(target.value)
       });
-    }
+    } else {
+    setReservation({
+      ...reservation,
+      [target.name]: target.value,
+    });
+  }
   };
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const abortController = new AbortController();
-    const errors = ValidateValues(reservation);
-    if (errors.length) {
-      return setErrors(errors);
-    }
 
     try {
       await createReservation(reservation, abortController.signal);
       history.push(`/dashboard?date=${reservation.reservation_date}`);
     } catch (error) {
-      setErrors([error]);
+      setErrorMessage([error.message]);
     }
     return () => abortController.abort();
   };
 
   return (
     <div>
-      <h4>New Reservation</h4>
-      {errors? <ErrorAlert error={errors} /> 
-      : null}
-      <ReservationForm
-        reservation={reservation}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-      />
-
-    </div>
+          <h4>New Reservation</h4>
+          <ErrorAlert error={errorMessage} />
+          <ReservationForm
+          reservation={reservation}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          />
+          {errorMessage && <div className="alert-alert-danger">{errorMessage}</div>}
+          </div>
   );
 }
 
