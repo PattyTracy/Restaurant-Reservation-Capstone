@@ -84,4 +84,4 @@
 >>>>>>> 06d858eb1496fdd83cb2b7f0ffe17506cd721779
 - revert-revise: (1/22/24)
 -       Reverted to earlier commit to correct NewReservation.js component. Formatted
-        form to be cleaner in ReservationView.js.
+        form to be cleaner in ReservationForm.js.
