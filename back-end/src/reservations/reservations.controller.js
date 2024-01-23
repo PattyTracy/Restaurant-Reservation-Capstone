@@ -58,11 +58,13 @@ function statusIsBooked(req, res, next) {
 // confirm number of people for "create" in reservation is a number >1
 function hasPeople(req, res, next) {
   let { data: { people } = {} } = req.body;
-  if (typeof people !== "number" || people < 1)
+  // if (typeof people !== "number" || people < 1) {
+    if (Number(people) < 1) {
     return next({
       status: 400,
       message: "Input field people must be a number greater than zero.",
     });
+  }
   next();
 }
 
