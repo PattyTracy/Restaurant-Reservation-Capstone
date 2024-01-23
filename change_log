@@ -82,6 +82,9 @@
 -       Wrote component NewReservation to create and save a new reservation. Also wrote a ReservationForm component that can be re-used that has the form with input fields. This can be used for create reservation, update reservation, and change status.
 -        Created previous, today and next buttons on dashboard. They work locally but I'm unable to run tests.
 >>>>>>> 06d858eb1496fdd83cb2b7f0ffe17506cd721779
+<<<<<<< Updated upstream
 - revert-revise: (1/22/24)
 -       Reverted to earlier commit to correct NewReservation.js component. Formatted
         form to be cleaner in ReservationForm.js.
+=======
+>>>>>>> Stashed changes
