@@ -1,3 +1,5 @@
+
+//---------------------------NewReservation.js from revert-revise ------
 import React, { useState } from "react";
 import { createReservation } from "../../utils/api";
 import { useHistory } from "react-router-dom";
@@ -62,3 +64,15 @@ function NewReservation() {
 }
 
 export default NewReservation;
+
+//-------------------createReservation from utils/api.js--------
+export async function createReservation(reservation, signal) {
+  const url = `${API_BASE_URL}/reservations`;
+  const options = {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ data: reservation }),
+      signal,
+  };
+  return await fetchJson(url, options, reservation)
+}
