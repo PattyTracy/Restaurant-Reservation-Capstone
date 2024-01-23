@@ -83,8 +83,11 @@
 -        Created previous, today and next buttons on dashboard. They work locally but I'm unable to run tests.
 >>>>>>> 06d858eb1496fdd83cb2b7f0ffe17506cd721779
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 - revert-revise: (1/22/24)
 -       Reverted to earlier commit to correct NewReservation.js component. Formatted
         form to be cleaner in ReservationForm.js.
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
