@@ -42,21 +42,25 @@ function Dashboard({ date }) {
         <h4 className="mb-0">Reservations for date </h4>
       </div>
       <ErrorAlert error={reservationsError} />
+      <div>
       <table className="mt-5 col-8">
         <thead>
+          <tr>
           <th>Last Name</th>
           <th>First Name</th>
           <th>Mobile Number</th>
           <th># in Party</th>
           <th>Reservation Date</th>
           <th>Reservation Time</th>
+          </tr>
         </thead>
         <tbody>
           {reservations.map((reservation, index) => (
-            <ReservationView reservation={reservation} index={index} />
+            <ReservationView reservation={reservation} index={index} key={index}/>
           ))}
         </tbody>
       </table>
+      </div>
       <div>
         <NavDateButtons />
       </div>

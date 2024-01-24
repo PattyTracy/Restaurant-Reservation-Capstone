@@ -2,7 +2,6 @@ const tablesService = require("./tables.service");
 const reservationsService = require("../reservations/reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
-
 const hasRequiredProperties = hasProperties("table_name", "capacity");
 
 // middleware for create, update
@@ -158,7 +157,6 @@ async function create(req, res) {
 
 // seat a reservation_id at a table_id
 async function update(req, res) {
-  // const table = await tablesService.read(req.params.table_id);
   const { data: { reservation_id } } = req.body;
   const updatedTable = {
     ...res.locals.table,
