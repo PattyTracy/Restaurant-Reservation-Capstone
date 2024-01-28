@@ -71,9 +71,7 @@
         "search" function in reservations.service to search for reservations 
         with a given phone number.
 - US-#8: (for User Story #8)
-<<<<<<< HEAD
-- F-US-#2: (front end for User Story #2)
-=======
+- F-US-#2: (fron end for User Story #2)
 - issues-#x: created to correct issues with User Stories 4, 5 and 6 that
         emerged after the back end files were completed. Also renamed 
         the "update" and "edit" functions in the reservations table
@@ -81,15 +79,11 @@
 - F-US-#1 (F for front end, User Story #1)
 -       Wrote component NewReservation to create and save a new reservation. Also wrote a ReservationForm component that can be re-used that has the form with input fields. This can be used for create reservation, update reservation, and change status.
 -        Created previous, today and next buttons on dashboard. They work locally but I'm unable to run tests.
-<<<<<<< Updated upstream
 - F-US-#2: (front end for User Story #2)
 - F-Revising-1, 12/12/23: Still unable to run front-end tests. Test 1 on backend is now failing & needs to be fixed. 
 Updated 1/2/24: all back-end unit tests passing.
 Started working on user story 4, Seat Reservation. New tables function works but need to display tables on dashboard and add free/occupied status to each table. Also need seat button next to each reservation (add to ReservationView).
 To run the front-end tests, try starting up the server on its own, letting it get warmed up, then running the front-end tests separately using the commands in /front-end/package.json file.
-=======
->>>>>>> 06d858eb1496fdd83cb2b7f0ffe17506cd721779
->>>>>>> Stashed changes
 - F-US-#4: corrected table alignment for Reservations in Dashboard
         - Reservations and Tables section display correctly; Seat
         buttons go to correct URL
