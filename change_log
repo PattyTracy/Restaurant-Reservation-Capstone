@@ -91,3 +91,5 @@ To run the front-end tests, try starting up the server on its own, letting it ge
 >>>>>>> 06d858eb1496fdd83cb2b7f0ffe17506cd721779
 >>>>>>> Stashed changes
 - F-US-#4: corrected table alignment for Reservations in Dashboard
+        - Reservations and Tables section display correctly; Seat
+        buttons go to correct URL
