@@ -1,19 +1,15 @@
 import React from "react";
 
-export default function TableView({ table, index }) {
+export default function TableView({ table }) {
   return (
-    <div>
-    <div>
-<tr key={table.index}>
+
+<tr>
     <td>{table.table_name}</td>
     <td>{table.capacity}</td>
     <td>
-        <a href="data-table-id-status=${table.table_id}">
-        {table.reservation_id? "Free" : "Occupied"}
-        </a>
+        {table.reservation_id === null? "Free" : "Occupied"}
         </td>
 </tr>
-</div>
-</div>
+
   );
 }
