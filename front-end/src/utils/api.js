@@ -31,7 +31,6 @@ headers.append("Content-Type", "application/json");
  *  If the response is not in the 200 - 399 range the promise is rejected.
  */
 async function fetchJson(url, options, onCancel) {
-  console.log("options", options)
   try {
     const response = await fetch(url, options);
 
@@ -100,15 +99,11 @@ export async function createTable(table, signal) {
     body: JSON.stringify({ data: table }),
     signal,
   };
-  console.log("Here are the options: ", options);
   return await fetchJson(url, options, [])
 }
 
 // List tables on Dashboard
 export async function listTables(signal) {
   const url = new URL(`${API_BASE_URL}/tables`);
-  // Object.entries(params).forEach(([key, value]) =>
-  //   url.searchParams.append(key, value.toString())
-  // );
   return await fetchJson(url, { headers, signal }, [])
 }

@@ -33,7 +33,7 @@ function NewTable() {
     const abortController = new AbortController();
 
     try {
-      const response = await createTable(table, abortController.signal);
+      await createTable(table, abortController.signal);
       history.push("/dashboard");
     } catch (error) {
       setErrors([error]);
@@ -45,9 +45,7 @@ function NewTable() {
       <div>
         {errors? <ErrorAlert error={errors} /> 
         : null}
-      <h4>New Table</h4>
-      {/* {errors? <ErrorAlert error={errors} /> 
-      : null} */}
+      <h4 className="mt-2">New Table</h4>
       <TableForm
         table={table}
         handleChange={handleChange}
