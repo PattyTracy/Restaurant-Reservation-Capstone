@@ -85,7 +85,7 @@ export async function listReservations(params, signal) {
       method: "POST",
       headers,
       body: JSON.stringify({ data: reservation }),
-      signal,
+      signal
   };
   return await fetchJson(url, options, [])
 }
@@ -97,7 +97,7 @@ export async function createTable(table, signal) {
     method: "POST",
     headers,
     body: JSON.stringify({ data: table }),
-    signal,
+    signal
   };
   return await fetchJson(url, options, [])
 }
@@ -106,4 +106,16 @@ export async function createTable(table, signal) {
 export async function listTables(signal) {
   const url = new URL(`${API_BASE_URL}/tables`);
   return await fetchJson(url, { headers, signal }, [])
+}
+
+// Seat a reservation
+// PUT request to /tables/:table_id/seat
+export async function updateTable(table_id, reservation_id) {
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: { reservation_id } })
+  }
+  return await fetchJson(url, options)
 }
