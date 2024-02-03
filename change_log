@@ -90,3 +90,11 @@ To run the front-end tests, try starting up the server on its own, letting it ge
         - Created api function updateTable() to PUT
           reservation_id to a table to seat a booked reservation
         - Submit, Cancel buttons working as expected
+- F-US-#5 (for user story 5): "Finish" reservation
+        - A "Seat" button only displays for a reservation
+          with status "Booked", and a "Booked" reservation
+          displays a "Finish" button. Reservations that are
+          not "Booked" or "Finished" will not display.
+        - Table list is refreshed after a reservation is
+          either "Booked" or "Finished."
+        
