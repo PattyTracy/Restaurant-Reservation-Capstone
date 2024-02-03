@@ -1,12 +1,7 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import StatusButtons from  "./StatusButtons";
 
-export default function ReservationView({ reservation, index }) {
-  const history = useHistory();
-
-  const handleClick = () => {
-    history.push(`/reservations/${reservation.reservation_id}/seat`);
-  };
+export default function ReservationView({ reservation }) {
 
   return (
       <tr>
@@ -16,13 +11,8 @@ export default function ReservationView({ reservation, index }) {
         <td>{reservation.people}</td>
         <td>{reservation.reservation_date}</td>
         <td>{reservation.reservation_time}</td>
-          <button
-            href="/reservations/${reservation_id}/seat"
-            className="btn btn-primary mt-3"
-            onClick={handleClick}
-          >
-            Seat
-          </button>
+        <td>{reservation.reservation_status}</td>
+        <StatusButtons reservation={reservation}/>
       </tr>
   );
 }
