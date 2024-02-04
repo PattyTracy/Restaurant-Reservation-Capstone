@@ -13,6 +13,7 @@ export default function ReservationView({ reservation }) {
         <td>{reservation.reservation_time}</td>
         <td>{reservation.status}</td>
         <StatusButtons reservation={reservation} />
+
       </tr>
   );
 }

@@ -52,7 +52,7 @@ function SeatReservation() {
       <div className="col-md-4 align-ctr">
         <h3 className="mt-3 mb-3">Seat a Reservation</h3>
         <label htmlFor="selectOptions" className="lead">
-          Select a Table for party of {people} : 
+          Select a Table for party of {people} :
         <select
           className="form-select"
           id="dropdown"

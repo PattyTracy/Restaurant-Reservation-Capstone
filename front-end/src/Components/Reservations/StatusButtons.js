@@ -40,6 +40,7 @@ history.go(0);
       <button
         href="data-table-id-finish={table.table_id}"
         type="button"
+
         className="btn btn-success mt-1 btn-block"
         onClick={handleFinish}      >
         Finish
@@ -48,3 +49,4 @@ history.go(0);
     </div>
   );
 }
+

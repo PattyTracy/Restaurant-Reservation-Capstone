@@ -85,8 +85,19 @@ Updated 1/2/24: all back-end unit tests passing.
 Started working on user story 4, Seat Reservation. New tables function works but need to display tables on dashboard and add free/occupied status to each table. Also need seat button next to each reservation (add to ReservationView).
 To run the front-end tests, try starting up the server on its own, letting it get warmed up, then running the front-end tests separately using the commands in /front-end/package.json file.
 - F-US-#4: corrected table alignment for Reservations in Dashboard
+- F-US-#5: began Seat function
 - F-Seat: Seat Reservation buttons and functionality
         - Created /reservations/:reservationId/seat page
         - Created api function updateTable() to PUT
           reservation_id to a table to seat a booked reservation
         - Submit, Cancel buttons working as expected
+-  F-US-#5 (for user story 5): "Finish" reservation
+        - A "Seat" button only displays for a reservation
+          with status "Booked", and a "Booked" reservation
+          displays a "Finish" button. Reservations that are
+          not "Booked" or "Finished" will not display.
+        - Table list is refreshed after a reservation is
+          either "Booked" or "Finished."
+- F-US-#6: user story #6 - add status column for each reservation 
+  on the dashboard 
+        

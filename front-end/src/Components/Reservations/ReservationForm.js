@@ -5,7 +5,7 @@ function ReservationForm({ reservation, handleSubmit, handleChange }) {
   const history = useHistory();
   return (
     <form onSubmit={handleSubmit}>
-      <fieldset className="border p-3">
+      <fieldset>
         <div className="row ml-2 mb-2">
           <div className="col-md-4">
             <label htmlFor="first_name">First Name</label>
