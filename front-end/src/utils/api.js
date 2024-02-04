@@ -76,9 +76,13 @@ export async function listReservations(params, signal) {
  * reservations and tables.
  */
 
+// Retrieves a reservation from the reservation_id.
+export async function readReservation(reservation_id, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}`);
+  return await fetchJson(url, {signal }, {});
+}
 
  // Saves a new reservation to the database.
- 
  export async function createReservation(reservation, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
   const options = {
@@ -87,7 +91,29 @@ export async function listReservations(params, signal) {
       body: JSON.stringify({ data: reservation }),
       signal
   };
-  return await fetchJson(url, options, [])
+  return await fetchJson(url, options, []);
+}
+
+// Seat a reservation
+// PUT request to /tables/:table_id/seat
+export async function updateTable(table_id, reservation_id) {
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: { reservation_id } })
+  }
+  return await fetchJson(url, options)
+}
+
+// Finish a reservation: remove the table assignment
+// DELETE request to /tables/:table_id/seat
+export async function finishTable(table_id, signal) {
+  console.log(typeof table_id);
+
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
+  const options = { method: "DELETE", signal };
+  return await fetchJson(url, options);
 }
 
 // Saves a new table to the database.
@@ -106,16 +132,4 @@ export async function createTable(table, signal) {
 export async function listTables(signal) {
   const url = new URL(`${API_BASE_URL}/tables`);
   return await fetchJson(url, { headers, signal }, [])
-}
-
-// Seat a reservation
-// PUT request to /tables/:table_id/seat
-export async function updateTable(table_id, reservation_id) {
-  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
-  const options = {
-    method: "PUT",
-    headers,
-    body: JSON.stringify({ data: { reservation_id } })
-  }
-  return await fetchJson(url, options)
 }

@@ -58,7 +58,7 @@ function Dashboard({ date }) {
           <th># in Party</th>
           <th>Reservation Date</th>
           <th>Reservation Time</th>
-          <th>Seat Reservation</th>
+          <th>Status</th>
           </tr>
         </thead>
         <tbody>

@@ -87,10 +87,10 @@ function ReservationForm({ reservation, handleSubmit, handleChange }) {
           </div>
         </div>
         <div className="mt-4 ml-4">
-          <button type="submit" className="mr-3">
+          <button type="submit" className="btn btn-primary mr-3">
             Submit
           </button>
-          <button type="cancel" onClick={() => history.goBack()}>
+          <button type="cancel" className="btn btn-danger" onClick={() => history.goBack()}>
             Cancel
           </button>
         </div>
