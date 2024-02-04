@@ -58,7 +58,7 @@ function SeatReservation() {
           id="dropdown"
           onChange={handleChange}
         >
-          <option value="" disabled selected>Select:</option>
+          <option value="" disabled selected>Select</option>
           {availableTables.map((table) => (
             <option key={table.table_id} value={table.table_id}>
               {table.table_name} - Capacity: {table.capacity}

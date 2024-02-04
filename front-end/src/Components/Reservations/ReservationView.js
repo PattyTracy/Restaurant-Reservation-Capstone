@@ -12,13 +12,8 @@ export default function ReservationView({ reservation }) {
         <td>{reservation.reservation_date}</td>
         <td>{reservation.reservation_time}</td>
         <td>{reservation.status}</td>
-          <button
-            href="/reservations/${reservation_id}/seat"
-            className="btn btn-primary mt-3"
-            onClick={handleClick}
-          >
-            Seat
-          </button>
+        <StatusButtons reservation={reservation} />
+
       </tr>
   );
 }

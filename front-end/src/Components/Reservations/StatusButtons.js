@@ -18,7 +18,7 @@ const handleFinish = async (event) => {
   const tableToFinish = tables.find((table) => reservation_id === table.reservation_id)  
   window.confirm(
     "Is this table ready to seat new guests? This cannot be undone."
-  ) && finishTable(tableToFinish.table_id);
+  ) && await finishTable(tableToFinish.table_id);
 history.go(0);
 } 
 
@@ -28,7 +28,7 @@ history.go(0);
       <button
         href="/reservations/${reservation_id}/seat"
         type="button"
-        className="btn btn-primary mt-3 btn-block"
+        className="btn btn-primary mt-1 btn-block"
         onClick={() => {
           history.push(`/reservations/${reservation_id}/seat`);
         }}
@@ -40,7 +40,8 @@ history.go(0);
       <button
         href="data-table-id-finish={table.table_id}"
         type="button"
-        className="btn btn-success mt-3 btn-block"
+
+        className="btn btn-success mt-1 btn-block"
         onClick={handleFinish}      >
         Finish
       </button>
@@ -48,3 +49,4 @@ history.go(0);
     </div>
   );
 }
+
