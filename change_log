@@ -99,5 +99,13 @@ To run the front-end tests, try starting up the server on its own, letting it ge
         - Table list is refreshed after a reservation is
           either "Booked" or "Finished."
 - F-US-#6: user story #6 - add status column for each reservation 
-  on the dashboard 
-        
+  on the dashboard. Only "booked" and "seated" columns display.
+- F-US-#7: user story #7 - created Search feature to allow a
+        search by mobile number. Search will display a reservation 
+        with a mobile number matching any part of the input.
+        - If no numbers in the reservations table match any
+          part of the input, "No reservations found" is returned.
+          If any numbers are found, they are returned and
+          displayed in the same table format that appears
+          on the Dashboard page.
+        - On submit, the input form is cleared.

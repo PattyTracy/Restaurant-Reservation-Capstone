@@ -28,7 +28,7 @@ history.go(0);
       <button
         href="/reservations/${reservation_id}/seat"
         type="button"
-        className="btn btn-primary mt-1 btn-block"
+        className="btn btn-primary btn-block"
         onClick={() => {
           history.push(`/reservations/${reservation_id}/seat`);
         }}
@@ -40,7 +40,6 @@ history.go(0);
       <button
         href="data-table-id-finish={table.table_id}"
         type="button"
-
         className="btn btn-success mt-1 btn-block"
         onClick={handleFinish}      >
         Finish

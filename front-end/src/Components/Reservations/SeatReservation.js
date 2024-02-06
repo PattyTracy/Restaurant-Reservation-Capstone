@@ -39,7 +39,7 @@ function SeatReservation() {
 
     try {
     await updateTable(selectedTableId, reservation_id);
-    history.push("/dashboard");
+    history.goBack();
   } catch (error) {
     console.log(error);
     console.log(error.message)

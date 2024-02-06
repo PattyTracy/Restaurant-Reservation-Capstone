@@ -4,6 +4,7 @@ import { listReservations, listTables } from "../utils/api";
 import ReservationView from "../Components/Reservations/ReservationView";
 import TableView from "../Components/Tables/TableView";
 import NavDateButtons from "../Components/NavButtons";
+import StatusButtons from "../Components/Reservations/StatusButtons";
 import ErrorAlert from "../layout/ErrorAlert";
 
 /**
@@ -68,9 +69,14 @@ function Dashboard({ date }) {
         </thead>
         <tbody>
           {reservations.map((reservation, index) => (
+             <tr>
             <ReservationView reservation={reservation} index={index} key={index}/>
+            <td>
+            <StatusButtons reservation={reservation}/>
+            </td>
+            </tr>
           ))}
-        </tbody>
+          </tbody>
       </table>
       </div>
       <div>
