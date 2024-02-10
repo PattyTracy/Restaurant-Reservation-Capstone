@@ -4,7 +4,9 @@ import { listReservations, listTables } from "../utils/api";
 import ReservationView from "../Components/Reservations/ReservationView";
 import TableView from "../Components/Tables/TableView";
 import NavDateButtons from "../Components/NavButtons";
-import StatusButtons from "../Components/Reservations/StatusButtons";
+import SeatButton from "../Components/Reservations/SeatButton";
+import EditButtons from "../Components/Reservations/EditButtons";
+import FinishButton from "../Components/Tables/FinishButton";
 import ErrorAlert from "../layout/ErrorAlert";
 
 /**
@@ -55,29 +57,35 @@ function Dashboard({ date }) {
       </div>
       <ErrorAlert error={reservationsError} />
       <div>
-      <table className="table col-8">
-        <thead>
-          <tr>
-          <th>Last Name</th>
-          <th>First Name</th>
-          <th>Mobile Number</th>
-          <th># in Party</th>
-          <th>Reservation Date</th>
-          <th>Reservation Time</th>
-          <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reservations.map((reservation, index) => (
-             <tr>
-            <ReservationView reservation={reservation} index={index} key={index}/>
-            <td>
-            <StatusButtons reservation={reservation}/>
-            </td>
+        <table className="table col-8">
+          <thead>
+            <tr>
+              <th>Last Name</th>
+              <th>First Name</th>
+              <th>Mobile Number</th>
+              <th># in Party</th>
+              <th>Reservation Date</th>
+              <th>Reservation Time</th>
+              <th>Status</th>
+              <th></th>
+              <th></th>
+              <th></th>
             </tr>
-          ))}
+          </thead>
+          <tbody>
+            {reservations.map((reservation, index) => (
+              <tr>
+                <ReservationView
+                  reservation={reservation}
+                  index={index}
+                  key={index}
+                />
+                <SeatButton reservation={reservation} index={index}/>
+                <EditButtons reservation={reservation} index={index} />
+              </tr>
+            ))}
           </tbody>
-      </table>
+        </table>
       </div>
       <div>
         <NavDateButtons />
@@ -90,11 +98,15 @@ function Dashboard({ date }) {
               <th>Table Name</th>
               <th>Capacity</th>
               <th>Status</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {tables.map((table, index) => (
+              <tr>
               <TableView table={table} index={index} key={index} />
+              <FinishButton table={table} index={index} />
+            </tr>
             ))}
           </tbody>
         </table>

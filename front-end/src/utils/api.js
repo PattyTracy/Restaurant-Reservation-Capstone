@@ -106,15 +106,38 @@ export async function updateTable(table_id, reservation_id) {
   return await fetchJson(url, options)
 }
 
+// cancel a booked reservation
+export async function cancelReservation(reservation_id, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}/status`);
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: { status: "cancelled" } })
+  }
+    return await fetchJson(url, options, [])
+}
+
+// update a booked reservation
+export async function updateReservation(reservation, signal) {
+  const { reservation_id } = reservation;
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}`);
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: reservation }),
+    signal
+  };
+  return await fetchJson(url, options)
+}
+
 // Finish a reservation: remove the table assignment
 // DELETE request to /tables/:table_id/seat
 export async function finishTable(table_id, signal) {
-  console.log(typeof table_id);
-
   const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
   const options = { method: "DELETE", signal };
   return await fetchJson(url, options);
 }
+
 
 // Saves a new table to the database.
 export async function createTable(table, signal) {
