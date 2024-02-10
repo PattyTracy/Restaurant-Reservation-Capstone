@@ -109,3 +109,18 @@ To run the front-end tests, try starting up the server on its own, letting it ge
           displayed in the same table format that appears
           on the Dashboard page.
         - On submit, the input form is cleared.
+-F-US-#8: user story #8 - add "edit reservation" feature. 
+        - An Edit button is displayed on every reservation on both
+        Dashboard and Search pages, but is disabled unless
+        reservation has status: "booked". Clicking "Edit" allows
+        user to update the information in the reservation and
+        save the updated data to the database. 
+        - A Cancel button is also displayed on every reservation
+        on both Dashboard and Search pages, but is disabled unless 
+        reservation has status: "booked." Clicking "Cancel" allows
+        user to cancel the reservation (changes the status to
+        "cancelled") and returns to the previous page.
+        - Updated "Finish" button to display in the Tables section
+        and be visible only if a table is occupied.
+        - Updated "Seat" button to be disabled unless the table has
+        status "booked."

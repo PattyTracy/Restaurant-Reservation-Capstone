@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReservationView from "./Reservations/ReservationView";
+import EditButtons from "./Reservations/EditButtons";
 import { listReservations } from "../utils/api";
 
 export default function NewSearch() {
@@ -19,8 +20,6 @@ export default function NewSearch() {
     );
     setReservations(filteredReservations);
     setSubmitted(true);
-    // clear search field
-    setMobileNumber("");
 
     return () => abortController.abort();
   };
@@ -44,39 +43,40 @@ export default function NewSearch() {
         </div>
       </form>
       <>
-      {submitted && !reservations.length ? (
-        <h4 className="ml-2">No reservations found.</h4>
-      ) : (
-        submitted &&
-        reservations.length && (
-          <div>
-            <table className="table col-8">
-              <thead>
-                <tr>
-                  <th>Last Name</th>
-                  <th>First Name</th>
-                  <th>Mobile Number</th>
-                  <th># in Party</th>
-                  <th>Reservation Date</th>
-                  <th>Reservation Time</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {reservations.map((reservation, index) => (
+        {submitted && !reservations.length ? (
+          <h4 className="ml-2">No reservations found.</h4>
+        ) : (
+          submitted &&
+          reservations.length && (
+            <div>
+              <table className="table col-8">
+                <thead>
                   <tr>
-                    <ReservationView
-                      reservation={reservation}
-                      index={index}
-                      key={index}
-                    />
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Mobile Number</th>
+                    <th># in Party</th>
+                    <th>Reservation Date</th>
+                    <th>Reservation Time</th>
+                    <th>Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )
-      )}
+                </thead>
+                <tbody>
+                  {reservations.map((reservation, index) => (
+                    <tr>
+                      <ReservationView
+                        reservation={reservation}
+                        index={index}
+                        key={index}
+                      />
+                        <EditButtons reservation={reservation} />
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )
+        )}
       </>
     </container>
   );
