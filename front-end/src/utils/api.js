@@ -6,7 +6,7 @@ import formatReservationDate from "./format-reservation-date";
 import formatReservationTime from "./format-reservation-date";
 
 const API_BASE_URL =
-  "https://restaurant-reservation-capstone-back-end-3mqt.onrender.com/";
+  "https://restaurant-reservation-capstone-back-end-3mqt.onrender.com";
 
 /**
  * Defines the default headers for these functions to work with `json-server`
