@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-// import { finishTable, listTables } from "../../utils/api";
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default function SeatButton({ reservation }) {
   const { reservation_id } = reservation;
-  // const [tables, setTables] = useState([]);
-
-  // // find which tables are occupied
-  // useEffect(() => {
-  //   listTables().then(setTables);
-  // }, [tables]);
 
   return (
         <td>

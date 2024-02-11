@@ -41,6 +41,8 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
+  const activeReservations = reservations.filter(reservation => reservation.status !== "cancelled");
+
   useEffect(() => {
     const abortController = new AbortController();
     setTablesError(null);
@@ -53,11 +55,11 @@ function Dashboard({ date }) {
     <main>
       <h1 className="mb-3">Dashboard</h1>
       <div className="d-md-flex mb-1">
-        <h4 className="mb-0">Reservations</h4>
+        <h4 className="mb-1">Reservations</h4>
       </div>
       <ErrorAlert error={reservationsError} />
       <div>
-        <table className="table col-8">
+        <table className="table col-9">
           <thead>
             <tr>
               <th>Last Name</th>
@@ -73,7 +75,7 @@ function Dashboard({ date }) {
             </tr>
           </thead>
           <tbody>
-            {reservations.map((reservation, index) => (
+            {activeReservations.map((reservation, index) => (
               <tr>
                 <ReservationView
                   reservation={reservation}

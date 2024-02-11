@@ -1,6 +1,8 @@
 import React from "react";
 
 export default function ReservationView({ reservation }) {
+  const { status } = reservation;
+  
   return (
     <>
       <td>{reservation.last_name}</td>
@@ -11,5 +13,6 @@ export default function ReservationView({ reservation }) {
       <td>{reservation.reservation_time}</td>
       <td>{reservation.status}</td>
     </>
+
   );
 }
