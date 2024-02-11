@@ -124,3 +124,5 @@ To run the front-end tests, try starting up the server on its own, letting it ge
         and be visible only if a table is occupied.
         - Updated "Seat" button to be disabled unless the table has
         status "booked."
+-F-Display-Reservations: update Dashboard so that only reservations with
+        a status of "booked" or "seated" are displayed.
