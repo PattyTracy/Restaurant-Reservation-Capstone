@@ -1,3 +1,6 @@
+This project was completed for the Thinkful (now Chegg Skills) Engineering Flex program.
+The site is live at https://dashboard.render.com/web/srv-cn4hssnqd2ns73embshg
+
 # Capstone: Restaurant Reservation System
 
 > You have been hired as a full stack developer at _Periodic Tables_, a startup that is creating a reservation system for fine dining restaurants.
